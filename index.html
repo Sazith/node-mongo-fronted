@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+  <h1 class="text-center m-3">Welcome to my site</h1>
+  <p id="userName"></p>
+
+  <div class="container">
+    <div class="row">
+      <label class="pb-3">Name</label>
+      <div>
+        <input type="text" class="form-control" id="name">
+      </div>
+      <label class="pb-3">User Name</label>
+      <div>
+        <input type="text" class="form-control" id="user_name">
+      </div>
+      <label class="pt-3 pb-3">Email</label>
+      <div class="mb-5">
+        <input type="text" class="form-control" id="email">
+      </div>
+      <button class="btn btn-primary" id="addUser">Add User</button>
+    </div>
+  </div>
+
+  <script>
+    fetch('http://localhost:8000/user/4')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('userName').innerText = data.name;
+      })
+
+    //post data to the server
+    const btnAddUser = document.getElementById('addUser');
+    btnAddUser.addEventListener('click', () => {
+      const name = document.getElementById('name').value
+      const user_name = document.getElementById('user_name').value
+      const email = document.getElementById('email').value
+      // const user = { name: name,username:user_name, email: email }
+
+      //post
+      fetch("http://localhost:8000/addUser", {
+        method: "POST",
+        // body: JSON.stringify({
+        //   user
+        // }),
+        body: JSON.stringify({
+          name: name,username:user_name, email: email
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+      .then(res => res.json())
+      .then(data => console.log(data))
+    })
+  </script>
+</body>
+
+</html>
